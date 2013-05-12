@@ -1,7 +1,7 @@
 "=============================================================================
 " FILE: omni_complete.vim
 " AUTHOR:  Shougo Matsushita <Shougo.Matsu@gmail.com>
-" Last Modified: 29 Apr 2013.
+" Last Modified: 12 May 2013.
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
 "     a copy of this software and associated documentation files (the
@@ -171,7 +171,7 @@ function! s:get_omni_list(list) "{{{
   for val in deepcopy(a:list)
     let dict = (type(val) == type('') ?
           \ { 'word' : val } : val)
-    let dict.menu = '[O]' . get(dict, 'menu', '')
+    let dict.menu = '[O] ' . get(dict, 'menu', '')
     call add(omni_list, dict)
 
     unlet val

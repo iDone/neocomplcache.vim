@@ -1134,6 +1134,9 @@ EXAMPLES					*neocomplcache-examples*
 	let g:neocomplcache_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
 	let g:neocomplcache_omni_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
 	let g:neocomplcache_omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+	if !exists('g:neocomplcache_force_omni_patterns')
+	  let g:neocomplcache_force_omni_patterns = {}
+	endif
 
 	" For perlomni.vim setting.
 	" https://github.com/c9s/perlomni.vim
@@ -1824,7 +1827,22 @@ A:
 >
 	set completeopt-=preview
 <
+Q: I want to use vim-lua-ftplugin.
+https://github.com/xolox/vim-lua-ftplugin
 
+A: Please set |g:neocomplcache_omni_patterns| as below.
+>
+	let g:lua_check_syntax = 0
+	let g:lua_complete_omni = 1
+	let g:lua_complete_dynamic = 0
+	
+	let g:neocomplcache_omni_functions.lua =
+	      \ 'xolox#lua#omnifunc'
+	let g:neocomplcache_omni_patterns.lua =
+	      \ '\w\+[.:]\|require\s*(\?["'']\w*'
+	" let g:neocomplcache_force_omni_patterns.lua =
+	      " \ '\w\+[.:]\|require\s*(\?["'']\w*'
+<
 ==============================================================================
 TODO						*neocomplcache-todo*
 
@@ -1834,6 +1852,7 @@ CHANGELOG					*neocomplcache-changelog*
 2013-05-12
 - Ver.8.1 development is started.
 - Call neobundle#autoload#filetype() in context filetype.
+- Added vim-lua-ftplugin support.
 
 2013-05-09
 - Added sorter_length.
