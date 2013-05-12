@@ -1833,9 +1833,7 @@ CHANGELOG					*neocomplcache-changelog*
 
 2013-05-12
 - Ver.8.1 development is started.
-
-------------------------------------------------------------------------------
-ChangeLog neocomplcache 8.0:
+- Call neobundle#autoload#filetype() in context filetype.
 
 2013-05-09
 - Added sorter_length.
