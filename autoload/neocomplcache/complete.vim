@@ -354,12 +354,13 @@ function! neocomplcache#complete#_set_results_words(sources) "{{{
     let pos = winsaveview()
 
     try
-      let context.candidates = has_key(source, 'get_keyword_list') ?
-            \ source.get_keyword_list(context.complete_str) :
-            \  has_key(source, 'get_complete_words') ?
-            \ source.get_complete_words(
-            \   context.complete_pos, context.complete_str) :
-            \ source.gather_candidates(context)
+      let context.candidates =
+            \ has_key(source, 'get_keyword_list') ?
+            \   source.get_keyword_list(context.complete_str) :
+            \ has_key(source, 'get_complete_words') ?
+            \   source.get_complete_words(
+            \     context.complete_pos, context.complete_str) :
+            \   source.gather_candidates(context)
     catch
       call neocomplcache#print_error(v:throwpoint)
       call neocomplcache#print_error(v:exception)
@@ -373,6 +374,11 @@ function! neocomplcache#complete#_set_results_words(sources) "{{{
         call winrestview(pos)
       endif
     endtry
+
+    if has_key(source, 'gather_candidates')
+      let context.candidates = neocomplcache#helper#call_filters(
+            \ source.matchers, source, {})
+    endif
 
     if g:neocomplcache_enable_debug
       echomsg source.name

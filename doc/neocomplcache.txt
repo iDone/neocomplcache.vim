@@ -1265,12 +1265,18 @@ Default sources are below. But you can create original filters(cf:
 	call unite#custom_source('_', 'sorters',
 	\ ['sorter_length'])
 <
+					*neocomplcache-filter-matcher_default*
+Default matchers: ['matcher_head'].
+
 					*neocomplcache-filter-sorter_default*
 Default sorters: ['sorter_rank'].
 
 					*neocomplcache-filter-converter_default*
 Default converters: ['converter_remove_next_keyword',
         \      'converter_delimiter', 'converter_case', 'converter_abbr'].
+
+					*neocomplcache-filter-matcher_head*
+matcher_head	Head matching matcher.
 
 					*neocomplcache-filter-sorter_nothing*
 sorter_nothing	Nothing sorter.
@@ -1856,6 +1862,7 @@ CHANGELOG					*neocomplcache-changelog*
 
 2013-05-13
 - Improved complete_results.
+- Implemented matchers(experimental).
 
 2013-05-12
 - Ver.8.1 development is started.

@@ -1,7 +1,7 @@
 "=============================================================================
 " FILE: matcher_head.vim
 " AUTHOR:  Shougo Matsushita <Shougo.Matsu@gmail.com>
-" Last Modified: 25 Apr 2013.
+" Last Modified: 13 May 2013.
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
 "     a copy of this software and associated documentation files (the
@@ -37,8 +37,32 @@ let s:matcher = {
       \}
 
 function! s:matcher.filter(context) "{{{
-  " Todo:
-  return []
+  lua << EOF
+  do
+  local input = vim.eval('a:context.complete_str')
+  local candidates = vim.eval('a:context.candidates')
+  if (vim.eval('&ignorecase') ~= 0) then
+    input = string.lower(input)
+    for i = #candidates-1, 0, -1 do
+      local word = vim.type(candidates[i]) == 'dict' and
+      string.lower(candidates[i].word) or string.lower(candidates[i])
+      if (string.find(word, input, 1, true) == nil) or word == input then
+        candidates[i] = nil
+      end
+    end
+  else
+    for i = #candidates-1, 0, -1 do
+      local word = vim.type(candidates[i]) == 'dict' and
+      candidates[i].word or candidates[i]
+      if (string.find(word, input, 1, true) == nil) or word == input then
+        candidates[i] = nil
+      end
+    end
+  end
+end
+EOF
+
+  return a:context.candidates
 endfunction"}}}
 
 let &cpo = s:save_cpo

@@ -1,7 +1,7 @@
 "=============================================================================
 " FILE: buffer_complete.vim
 " AUTHOR:  Shougo Matsushita <Shougo.Matsu@gmail.com>
-" Last Modified: 01 May 2013.
+" Last Modified: 13 May 2013.
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
 "     a copy of this software and associated documentation files (the
@@ -88,11 +88,10 @@ function! s:source.gather_candidates(context) "{{{
 
   let keyword_list = []
   for [key, source] in s:get_sources_list()
-    call neocomplcache#cache#check_cache_list('buffer_cache',
+    call neocomplcache#cache#check_cache_noindex('buffer_cache',
           \ source.path, s:async_dictionary_list, source.keyword_cache, 1)
 
-    let keyword_list += neocomplcache#dictionary_filter(
-          \ source.keyword_cache, a:context.complete_str)
+    let keyword_list += keys(source.keyword_cache)
     if key == bufnr('%')
       let source.accessed_time = localtime()
     endif
@@ -140,13 +139,9 @@ function! s:caching_current_buffer(start, end) "{{{
     " Ignore too short keyword.
     if len(match_str) >= g:neocomplcache_min_keyword_length "{{{
       " Check dup.
-      let key = tolower(match_str[: completion_length-1])
-      if !has_key(keywords, key)
-        let keywords[key] = {}
-      endif
-      if !has_key(keywords[key], match_str)
+      if !has_key(keywords, match_str)
         " Append list.
-        let keywords[key][match_str] = match_str
+        let keywords[match_str] = ''
         let source.frequencies[match_str] = 30
       endif
     endif"}}}
@@ -274,7 +269,7 @@ function! s:check_source() "{{{
   endif
 
   let source = s:buffer_sources[bufnumber]
-  call neocomplcache#cache#check_cache_list('buffer_cache',
+  call neocomplcache#cache#check_cache_noindex('buffer_cache',
         \ source.path, s:async_dictionary_list, source.keyword_cache, 1)
 endfunction"}}}
 function! s:check_cache() "{{{

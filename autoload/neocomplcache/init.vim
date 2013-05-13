@@ -713,7 +713,7 @@ function! neocomplcache#init#_source(source) "{{{
         \ 'max_candidates' : 0,
         \ 'filetypes' : {},
         \ 'hooks' : {},
-        \ 'matchers' : ['matcher_old'],
+        \ 'matchers' : ['matcher_head'],
         \ 'sorters' : ['sorter_rank'],
         \ 'converters' : [
         \      'converter_remove_next_keyword',
