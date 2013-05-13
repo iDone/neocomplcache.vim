@@ -37,26 +37,28 @@ let s:matcher = {
       \}
 
 function! s:matcher.filter(context) "{{{
-  let complete_str = neocomplcache#filters#matcher_fuzzy#escape(
+  let pattern = neocomplcache#filters#matcher_fuzzy#escape(
         \ a:context.complete_str)
   lua << EOF
 do
-  local input = vim.eval('complete_str')
+  local pattern = vim.eval('pattern')
+  local input = vim.eval('a:context.complete_str')
   local candidates = vim.eval('a:context.candidates')
   if (vim.eval('&ignorecase') ~= 0) then
+    pattern = string.lower(pattern)
     input = string.lower(input)
     for i = #candidates-1, 0, -1 do
       local word = vim.type(candidates[i]) == 'dict' and
-      string.lower(candidates[i].word) or string.lower(candidates[i])
-      if (string.find(word, input, 1) == nil) or word == input then
+        string.lower(candidates[i].word) or string.lower(candidates[i])
+      if (string.find(word, pattern, 1) == nil) or word == input then
         candidates[i] = nil
       end
     end
   else
     for i = #candidates-1, 0, -1 do
       local word = vim.type(candidates[i]) == 'dict' and
-      candidates[i].word or candidates[i]
-      if (string.find(word, input, 1) == nil) or word == input then
+        candidates[i].word or candidates[i]
+      if (string.find(word, pattern, 1) == nil) or word == input then
         candidates[i] = nil
       end
     end
