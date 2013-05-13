@@ -1,7 +1,7 @@
 "=============================================================================
 " FILE: neocomplcache.vim
 " AUTHOR:  Shougo Matsushita <Shougo.Matsu@gmail.com>
-" Last Modified: 25 Apr 2013.
+" Last Modified: 13 May 2013.
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
 "     a copy of this software and associated documentation files (the
@@ -33,12 +33,7 @@ let g:loaded_neocomplcache = 1
 let s:save_cpo = &cpo
 set cpo&vim
 
-if v:version < 702
-  echohl Error
-  echomsg 'neocomplcache does not work this version of Vim (' . v:version . ').'
-  echohl None
-  finish
-elseif $SUDO_USER != '' && $USER !=# $SUDO_USER
+if $SUDO_USER != '' && $USER !=# $SUDO_USER
       \ && $HOME !=# expand('~'.$USER)
       \ && $HOME ==# expand('~'.$SUDO_USER)
   echohl Error
@@ -48,6 +43,9 @@ elseif $SUDO_USER != '' && $USER !=# $SUDO_USER
         \.'with "sudo" or set always_set_home in /etc/sudoers instead.'
   echohl None
   finish
+elseif !(has('lua') && (v:version > 703 || v:version == 703 && has('patch885')))
+  echomsg 'neocomplcache does not work this version of Vim.'
+  echomsg 'It requires Vim 7.3.885 or above and "if_lua" enabled Vim.'
 endif
 
 command! -nargs=0 -bar NeoComplCacheEnable
