@@ -6,12 +6,13 @@ set cpo&vim
 " }}}
 
 Context types
-  It tests compare functions.
-    ShouldEqual sort([{ 'word' : 'z0' }, { 'word' : 'z10' },
-          \ { 'word' : 'z2'}, { 'word' : 'z3'} ],
-          \ 'neocomplcache#compare_human'),
-          \ [{ 'word' : 'z0' }, { 'word' : 'z2' },
-          \  { 'word' : 'z3' }, { 'word' : 'z10' }]
+  It tests escape string.
+    ShouldEqual neocomplcache#filters#matcher_fuzzy#escape(
+          \ 'abc'), 'a.*b.*c.*'
+    ShouldEqual neocomplcache#filters#matcher_fuzzy#escape(
+          \ '%a%b%c'), '%%a.*%%b.*%%c.*'
+    ShouldEqual neocomplcache#filters#matcher_fuzzy#escape(
+          \ '%[ab]c'), '%%%[a.*b.*%]c.*'
   End
 End
 
