@@ -1,7 +1,7 @@
 "=============================================================================
 " FILE: neocomplcache.vim
 " AUTHOR:  Shougo Matsushita <Shougo.Matsu@gmail.com>
-" Last Modified: 24 Apr 2013.
+" Last Modified: 13 May 2013.
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
 "     a copy of this software and associated documentation files (the
@@ -62,11 +62,11 @@ function! s:neocomplcache_source.hooks.on_init(args, context) "{{{
     let &l:completefunc = 'neocomplcache#complete#unite_complete'
 
     let cur_text = neocomplcache#get_cur_text(1)
-    let complete_results = neocomplcache#complete#_get_results(cur_text)
+    let complete_sources = neocomplcache#complete#_get_results(cur_text)
     let a:context.source__complete_pos =
-          \ neocomplcache#complete#_get_complete_pos(complete_results)
+          \ neocomplcache#complete#_get_complete_pos(complete_sources)
     let a:context.source__candidates = neocomplcache#complete#_get_words(
-          \ complete_results, a:context.source__complete_pos,
+          \ complete_sources, a:context.source__complete_pos,
           \ cur_text[a:context.source__complete_pos :])
   finally
     " Restore options.

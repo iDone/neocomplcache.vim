@@ -1,7 +1,7 @@
 "=============================================================================
 " FILE: handler.vim
 " AUTHOR: Shougo Matsushita <Shougo.Matsu@gmail.com>
-" Last Modified: 26 Apr 2013.
+" Last Modified: 13 May 2013.
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
 "     a copy of this software and associated documentation files (the
@@ -152,8 +152,8 @@ function! neocomplcache#handler#_do_auto_complete(event) "{{{
   endif
 
   " Check complete position.
-  let complete_results = neocomplcache#complete#_set_results_pos(cur_text)
-  if empty(complete_results)
+  let complete_sources = neocomplcache#complete#_set_results_pos(cur_text)
+  if empty(complete_sources)
     if g:neocomplcache_enable_debug
       echomsg 'Skipped.'
     endif
@@ -165,10 +165,10 @@ function! neocomplcache#handler#_do_auto_complete(event) "{{{
 
   if neocomplcache#is_prefetch()
     " Do prefetch.
-    let neocomplcache.complete_results =
+    let neocomplcache.complete_sources =
           \ neocomplcache#complete#_get_results(cur_text)
 
-    if empty(neocomplcache.complete_results)
+    if empty(neocomplcache.complete_sources)
       if g:neocomplcache_enable_debug
         echomsg 'Skipped.'
       endif

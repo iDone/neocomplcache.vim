@@ -1,7 +1,7 @@
 "=============================================================================
 " FILE: complete.vim
 " AUTHOR: Shougo Matsushita <Shougo.Matsu@gmail.com>
-" Last Modified: 01 May 2013.
+" Last Modified: 13 May 2013.
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
 "     a copy of this software and associated documentation files (the
@@ -43,14 +43,16 @@ function! neocomplcache#complete#manual_complete(findstart, base) "{{{
     endif
 
     " Get complete_pos.
-    if neocomplcache#is_prefetch() && !empty(neocomplcache.complete_results)
+    if neocomplcache#is_prefetch() &&
+          \ !empty(neocomplcache.complete_sources)
       " Use prefetch results.
     else
-      let neocomplcache.complete_results =
+      let neocomplcache.complete_sources =
             \ neocomplcache#complete#_get_results(cur_text)
     endif
     let complete_pos =
-          \ neocomplcache#complete#_get_complete_pos(neocomplcache.complete_results)
+          \ neocomplcache#complete#_get_complete_pos(
+          \ neocomplcache.complete_sources)
 
     if complete_pos < 0
       call neocomplcache#helper#clear_result()
@@ -65,9 +67,9 @@ function! neocomplcache#complete#manual_complete(findstart, base) "{{{
     return complete_pos
   else
     let complete_pos = neocomplcache#complete#_get_complete_pos(
-          \ neocomplcache.complete_results)
+          \ neocomplcache.complete_sources)
     let neocomplcache.candidates = neocomplcache#complete#_get_words(
-          \ neocomplcache.complete_results, complete_pos, a:base)
+          \ neocomplcache.complete_sources, complete_pos, a:base)
     let neocomplcache.complete_str = a:base
 
     if v:version > 703 || v:version == 703 && has('patch418')
@@ -104,10 +106,10 @@ function! neocomplcache#complete#sources_manual_complete(findstart, base) "{{{
           \ type(sources) == type([]) ? sources : [sources])
 
     " Get complete_pos.
-    let complete_results = neocomplcache#complete#_get_results(
+    let complete_sources = neocomplcache#complete#_get_results(
           \ neocomplcache#get_cur_text(1), s:use_sources)
     let neocomplcache.complete_pos =
-          \ neocomplcache#complete#_get_complete_pos(complete_results)
+          \ neocomplcache#complete#_get_complete_pos(complete_sources)
 
     if neocomplcache.complete_pos < 0
       call neocomplcache#helper#clear_result()
@@ -115,16 +117,16 @@ function! neocomplcache#complete#sources_manual_complete(findstart, base) "{{{
       return -2
     endif
 
-    let neocomplcache.complete_results = complete_results
+    let neocomplcache.complete_sources = complete_sources
 
     return neocomplcache.complete_pos
   endif
 
   let neocomplcache.complete_pos =
         \ neocomplcache#complete#_get_complete_pos(
-        \     neocomplcache.complete_results)
+        \     neocomplcache.complete_sources)
   let candidates = neocomplcache#complete#_get_words(
-        \ neocomplcache.complete_results,
+        \ neocomplcache.complete_sources,
         \ neocomplcache.complete_pos, a:base)
 
   let neocomplcache.candidates = candidates
@@ -144,17 +146,17 @@ endfunction"}}}
 
 function! neocomplcache#complete#_get_results(cur_text, ...) "{{{
   if g:neocomplcache_enable_debug
-    echomsg 'start get_complete_results'
+    echomsg 'start get_complete_sources'
   endif
 
   let neocomplcache = neocomplcache#get_current_neocomplcache()
   let neocomplcache.start_time = reltime()
 
-  let complete_results = call(
+  let complete_sources = call(
         \ 'neocomplcache#complete#_set_results_pos', [a:cur_text] + a:000)
-  call neocomplcache#complete#_set_results_words(complete_results)
+  call neocomplcache#complete#_set_results_words(complete_sources)
 
-  return filter(complete_results,
+  return filter(copy(complete_sources),
         \ '!empty(v:val.neocomplcache__context.candidates)')
 endfunction"}}}
 
