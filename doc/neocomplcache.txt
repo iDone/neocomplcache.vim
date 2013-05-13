@@ -1266,7 +1266,11 @@ Default sources are below. But you can create original filters(cf:
 	\ ['sorter_length'])
 <
 					*neocomplcache-filter-matcher_default*
-Default matchers: ['matcher_head'].
+Default matchers:
+	if |g:neocomplcache_enable_fuzzy_completion| :
+		['matcher_head']
+	else :
+		['matcher_fuzzy']
 
 					*neocomplcache-filter-sorter_default*
 Default sorters: ['sorter_rank'].
@@ -1277,6 +1281,9 @@ Default converters: ['converter_remove_next_keyword',
 
 					*neocomplcache-filter-matcher_head*
 matcher_head	Head matching matcher.
+
+					*neocomplcache-filter-matcher_fuzzy*
+matcher_fuzzy	Fuzzy matching matcher.
 
 					*neocomplcache-filter-sorter_nothing*
 sorter_nothing	Nothing sorter.
@@ -1863,6 +1870,7 @@ CHANGELOG					*neocomplcache-changelog*
 2013-05-13
 - Improved complete_results.
 - Implemented matchers(experimental).
+- Added matcher_fuzzy.
 
 2013-05-12
 - Ver.8.1 development is started.

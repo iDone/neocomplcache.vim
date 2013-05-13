@@ -38,7 +38,7 @@ let s:matcher = {
 
 function! s:matcher.filter(context) "{{{
   lua << EOF
-  do
+do
   local input = vim.eval('a:context.complete_str')
   local candidates = vim.eval('a:context.candidates')
   if (vim.eval('&ignorecase') ~= 0) then
