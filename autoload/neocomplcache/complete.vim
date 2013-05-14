@@ -1,7 +1,7 @@
 "=============================================================================
 " FILE: complete.vim
 " AUTHOR: Shougo Matsushita <Shougo.Matsu@gmail.com>
-" Last Modified: 13 May 2013.
+" Last Modified: 14 May 2013.
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
 "     a copy of this software and associated documentation files (the
@@ -72,22 +72,16 @@ function! neocomplcache#complete#manual_complete(findstart, base) "{{{
           \ neocomplcache.complete_sources, complete_pos, a:base)
     let neocomplcache.complete_str = a:base
 
-    if v:version > 703 || v:version == 703 && has('patch418')
-      let dict = { 'words' : neocomplcache.candidates }
+    let dict = { 'words' : neocomplcache.candidates }
 
-      if (g:neocomplcache_enable_cursor_hold_i
-            \      || v:version > 703 || v:version == 703 && has('patch561'))
-            \ && (len(a:base) < g:neocomplcache_auto_completion_start_length
-            \   || !empty(filter(copy(neocomplcache.candidates),
-            \          "get(v:val, 'neocomplcache__refresh', 0)"))
-            \   || len(neocomplcache.candidates) >= g:neocomplcache_max_list)
-        " Note: If Vim is less than 7.3.561, it have broken register "." problem.
-        let dict.refresh = 'always'
-      endif
-      return dict
-    else
-      return neocomplcache.candidates
+    if len(a:base) < g:neocomplcache_auto_completion_start_length
+          \   || !empty(filter(copy(neocomplcache.candidates),
+          \          "get(v:val, 'neocomplcache__refresh', 0)"))
+          \   || len(neocomplcache.candidates) >= g:neocomplcache_max_list
+      " Note: If Vim is less than 7.3.561, it have broken register "." problem.
+      let dict.refresh = 'always'
     endif
+    return dict
   endif
 endfunction"}}}
 

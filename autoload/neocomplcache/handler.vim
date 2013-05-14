@@ -1,7 +1,7 @@
 "=============================================================================
 " FILE: handler.vim
 " AUTHOR: Shougo Matsushita <Shougo.Matsu@gmail.com>
-" Last Modified: 13 May 2013.
+" Last Modified: 14 May 2013.
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
 "     a copy of this software and associated documentation files (the
@@ -63,8 +63,7 @@ function! neocomplcache#handler#_on_write_post() "{{{
 
   " Restore foldinfo.
   " Note: settabwinvar() in insert mode has bug before 7.3.768.
-  for tabnr in (v:version > 703 || (v:version == 703 && has('patch768')) ?
-        \ range(1, tabpagenr('$')) : [tabpagenr()])
+  for tabnr in range(1, tabpagenr('$'))
     for winnr in filter(range(1, tabpagewinnr(tabnr, '$')),
           \ "!empty(gettabwinvar(tabnr, v:val, 'neocomplcache_foldinfo'))")
       let neocomplcache_foldinfo =
@@ -196,8 +195,7 @@ endfunction"}}}
 function! s:save_foldinfo() "{{{
   " Save foldinfo.
   " Note: settabwinvar() in insert mode has bug before 7.3.768.
-  for tabnr in filter((v:version > 703 || (v:version == 703 && has('patch768')) ?
-        \ range(1, tabpagenr('$')) : [tabpagenr()]),
+  for tabnr in filter(range(1, tabpagenr('$')),
         \ "index(tabpagebuflist(v:val), bufnr('%')) >= 0")
     let winnrs = range(1, tabpagewinnr(tabnr, '$'))
     if tabnr == tabpagenr()

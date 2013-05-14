@@ -1,7 +1,7 @@
 "=============================================================================
 " FILE: init.vim
 " AUTHOR: Shougo Matsushita <Shougo.Matsu@gmail.com>
-" Last Modified: 13 May 2013.
+" Last Modified: 14 May 2013.
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
 "     a copy of this software and associated documentation files (the
@@ -101,7 +101,6 @@ function! neocomplcache#init#_autocmds() "{{{
   augroup END
 
   if g:neocomplcache_enable_insert_char_pre
-        \ && (v:version > 703 || v:version == 703 && has('patch418'))
     autocmd neocomplcache InsertCharPre *
           \ call neocomplcache#handler#_do_auto_complete('InsertCharPre')
   elseif g:neocomplcache_enable_cursor_hold_i
@@ -118,10 +117,8 @@ function! neocomplcache#init#_autocmds() "{{{
           \ call neocomplcache#handler#_do_auto_complete('CursorMovedI')
   endif
 
-  if (v:version > 703 || v:version == 703 && has('patch598'))
-    autocmd neocomplcache CompleteDone *
-          \ call neocomplcache#handler#_on_complete_done()
-  endif
+  autocmd neocomplcache CompleteDone *
+        \ call neocomplcache#handler#_on_complete_done()
 endfunction"}}}
 
 function! neocomplcache#init#_others() "{{{
