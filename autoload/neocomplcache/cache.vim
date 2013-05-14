@@ -1,7 +1,7 @@
 "=============================================================================
 " FILE: cache.vim
 " AUTHOR: Shougo Matsushita <Shougo.Matsu@gmail.com>
-" Last Modified: 13 May 2013.
+" Last Modified: 14 May 2013.
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
 "     a copy of this software and associated documentation files (the
@@ -134,7 +134,7 @@ function! neocomplcache#cache#check_cache_noindex(cache_dir, key, async_cache_di
     if is_string
       for keyword in filter(neocomplcache#cache#load_from_cache(
             \ a:cache_dir, cache.filename, is_string),
-            \ '!has_key(a:keyword_list, v:val)')
+            \ '!has_key(a:keywords, v:val)')
         let a:keywords[keyword] = ''
       endfor
     else
